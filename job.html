@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOBルール | IslaCity</title>
+    <link rel="icon" type="image/png" href="img/Copilot_20250603_204311.png">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #2d1a06;
+            background: repeating-linear-gradient(
+                135deg,
+                #f7e9d0 0px, #f7e9d0 40px,
+                #e7cfa0 40px, #e7cfa0 80px,
+                #c9a063 80px, #c9a063 120px
+            );
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow-x: hidden;
+        }
+        .job-container {
+            background: rgba(255,255,255,0.92);
+            border-radius: 36px;
+            box-shadow: 0 8px 40px #a259ff22, 0 1.5px 8px #fff2;
+            padding: 48px 32px 36px 32px;
+            max-width: 1100px;
+            width: 98vw;
+            margin: 90px 0 40px 0;
+            position: relative;
+            -webkit-backdrop-filter: blur(2px);
+            backdrop-filter: blur(2px);
+        }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            letter-spacing: 0.13em;
+            margin-bottom: 1.5em;
+            color: #a259ff;
+            text-shadow: 0 2px 16px #fff8, 0 0 8px #a259ff77;
+            text-align: center;
+        }
+        .job-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: center;
+            margin-bottom: 2em;
+        }
+        .job-card {
+            background: linear-gradient(120deg, #fff 60%, #e7cfa0 100%);
+            border-radius: 20px;
+            box-shadow: 0 4px 24px #a259ff22;
+            padding: 32px 28px 24px 28px;
+            min-width: 260px;
+            max-width: 340px;
+            flex: 1 1 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+            transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+            border: 2px solid #e7cfa0;
+        }
+        .job-card:hover {
+            transform: translateY(-8px) scale(1.04);
+            box-shadow: 0 8px 32px #a259ff55;
+            border-color: #a259ff;
+        }
+        .job-title {
+            font-family: 'Orbitron', 'Noto Sans JP', 'Yu Gothic', 'Meiryo', 'MS PGothic', sans-serif;
+            font-size: 1.25rem;
+            color: #a259ff;
+            margin-bottom: 0.7em;
+            letter-spacing: 0.09em;
+            text-shadow: 0 0 10px #fff8;
+            align-self: center;
+        }
+        .job-rules {
+            margin: 0 0 0.7em 0;
+            padding-left: 1.2em;
+            width: 100%;
+        }
+        .job-rules li {
+            font-size: 1.08rem;
+            margin: 0.5em 0;
+            color: #3a2a13;
+            line-height: 1.7;
+            position: relative;
+            font-family: 'Roboto', sans-serif;
+        }
+        .job-comment {
+            color: #a259ff;
+            font-size: 0.98rem;
+            margin-top: 0.5em;
+            margin-bottom: 1.2em;
+            font-family: 'Roboto', sans-serif;
+        }
+        .dev-comment {
+            color: #bdbdbd;
+            font-size: 0.98rem;
+            margin-top: 0.5em;
+            margin-bottom: 1.2em;
+            font-style: italic;
+            font-family: 'Roboto', sans-serif;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 32px;
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            background: linear-gradient(90deg, #a259ff 0%, #3a0ca3 100%);
+            border: none;
+            border-radius: 24px;
+            box-shadow: 0 2px 12px #a259ff55;
+            text-decoration: none;
+            letter-spacing: 0.07em;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .back-link:hover {
+            background: linear-gradient(90deg, #3a0ca3 0%, #a259ff 100%);
+            transform: scale(1.04);
+        }
+        @media (max-width: 1100px) {
+            .job-list {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .job-card {
+                max-width: 98vw;
+            }
+        }
+        @media (max-width: 700px) {
+            .job-container {
+                padding: 18px 2vw 12px 2vw;
+                margin: 40px 0 20px 0;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
+            .job-title {
+                font-size: 1.1rem;
+            }
+            .job-card {
+                padding: 18px 8px 14px 8px;
+            }
+        }
+        body,
+        h1,
+        .job-title,
+        .job-rules li,
+        .job-comment,
+        .dev-comment,
+        .back-link {
+            font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', 'MS PGothic', sans-serif !important;
+        }
+
+        .job-comment {
+            color: #a259ff;
+        }
+
+        .dev-comment {
+            color: #bdbdbd;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="job-container">
+        <h1>各お店・ジョブのルール</h1>
+        <div class="job-list">
+            <div class="job-card">
+                <div class="job-title">猫カフェルール</div>
+                <ul class="job-rules">
+                    <li>猫カフェの敷地内で起きた問題は報告してください。</li>
+                    <li>「店の中では」銃を撃たないでください。猫がびっくりしちゃうので。</li>
+                    <li>汚職禁止（無料で飲食の提供をする等）</li>
+                </ul>
+                <div class="job-comment">
+                    あまり縛りすぎないようにしたのですが、運営の方々がこのルールは追加してなどありましたら、教えて欲しいです。
+                </div>
+            </div>
+            <div class="job-card">
+                <div class="job-title">バーガーショップルール</div>
+                <ul class="job-rules">
+                    <li>開発中です。</li>
+                </ul>
+                <div class="dev-comment">今後ルールが追加されます。</div>
+            </div>
+            <div class="job-card">
+                <div class="job-title">ラーメン屋ルール</div>
+                <ul class="job-rules">
+                    <li>開発中です。</li>
+                </ul>
+                <div class="dev-comment">今後ルールが追加されます。</div>
+            </div>
+            <div class="job-card">
+                <div class="job-title">カジノルール</div>
+                <ul class="job-rules">
+                    <li>開発中です。</li>
+                </ul>
+                <div class="dev-comment">今後ルールが追加されます。</div>
+            </div>
+            <div class="job-card">
+                <div class="job-title">クラブハウスルール</div>
+                <ul class="job-rules">
+                    <li>開発中です。</li>
+                </ul>
+                <div class="dev-comment">今後ルールが追加されます。</div>
+            </div>
+        </div>
+        <a href="index.html" class="back-link">← トップへ戻る</a>
+    </div>
+</body>
+</html>

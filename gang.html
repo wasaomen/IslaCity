@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ギャング活動内容 | IslaCity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #fff;
+            background: radial-gradient(ellipse at 50% 40%, #a259ff 0%, #3a0ca3 60%, #1a0536 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+        .gang-container {
+            background: rgba(40, 10, 80, 0.85);
+            border-radius: 28px;
+            box-shadow: 0 8px 40px #a259ff66, 0 1.5px 8px #fff2;
+            padding: 48px 40px 36px 40px;
+            max-width: 520px;
+            width: 90vw;
+            text-align: center;
+            margin-top: 90px;
+            position: relative;
+            overflow: hidden;
+        }
+        .gang-container::before {
+            content: "";
+            position: absolute;
+            top: -60px; left: -60px;
+            width: 180px; height: 180px;
+            background: radial-gradient(circle, #a259ff88 0%, transparent 80%);
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(8px);
+        }
+        .gang-container::after {
+            content: "";
+            position: absolute;
+            bottom: -40px; right: -40px;
+            width: 120px; height: 120px;
+            background: radial-gradient(circle, #3a0ca388 0%, transparent 80%);
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(8px);
+        }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.4rem;
+            letter-spacing: 0.12em;
+            margin-bottom: 1.2em;
+            color: #fff;
+            text-shadow: 0 0 24px #a259ff, 0 0 8px #fff, 0 2px 8px #3a0ca3cc;
+            position: relative;
+            z-index: 1;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2em 0;
+            text-align: left;
+            position: relative;
+            z-index: 1;
+        }
+        li {
+            font-size: 1.15rem;
+            margin: 1.1em 0;
+            font-family: 'Orbitron', sans-serif;
+            color: #e0b3ff;
+            letter-spacing: 0.06em;
+            background: linear-gradient(90deg, #a259ff33 0%, #3a0ca333 100%);
+            border-radius: 12px;
+            padding: 0.7em 1.2em;
+            box-shadow: 0 2px 12px #a259ff22;
+            transition: background 0.2s, transform 0.2s;
+        }
+        li:hover {
+            background: linear-gradient(90deg, #a259ff88 0%, #3a0ca388 100%);
+            transform: scale(1.04) translateX(6px);
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 14px 38px;
+            font-size: 1.08rem;
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            background: linear-gradient(90deg, #a259ff 0%, #3a0ca3 100%);
+            border: none;
+            border-radius: 28px;
+            box-shadow: 0 2px 16px #a259ff55, 0 1.5px 8px #fff2;
+            text-decoration: none;
+            letter-spacing: 0.09em;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            z-index: 1;
+        }
+        .back-link:hover {
+            background: linear-gradient(90deg, #3a0ca3 0%, #a259ff 100%);
+            transform: scale(1.06);
+            box-shadow: 0 4px 24px #a259ff99;
+        }
+        @media (max-width: 600px) {
+            .gang-container {
+                padding: 28px 8vw 24px 8vw;
+                margin-top: 40px;
+            }
+            h1 {
+                font-size: 1.4rem;
+            }
+            li {
+                font-size: 1rem;
+                padding: 0.6em 0.7em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gang-container">
+        <h1>ギャングの活動内容</h1>
+        <ul>
+            <li>ギャング同士のPVPバトルや抗争</li>
+            <li>ギャング限定の特別イベントやミッション</li>
+            <li>ギャング専用のファッション・服装</li>
+            <li>専用乗り物や拠点の運用・カスタマイズ</li>
+            <li>他プレイヤーやギャングとの交流・対決</li>
+        </ul>
+        <a href="index.html" class="back-link">← トップへ戻る</a>
+    </div>
+</body>
+</html>

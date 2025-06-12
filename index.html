@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IslaCity</title>
+    <link rel="icon" type="image/png" href="img/Copilot_20250603_204311.png">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main-grad: linear-gradient(135deg, #a259ff 0%, #3a0ca3 60%, #1a0536 100%);
+            --glass-bg: rgba(30, 5, 60, 0.75);
+            --glass-blur: blur(12px);
+            --accent: #a259ff;
+            --accent2: #3a0ca3;
+            --white: #fff;
+            --shadow: 0 8px 40px #a259ff44, 0 1.5px 8px #fff2;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Roboto', 'Noto Sans JP', Arial, sans-serif;
+            color: var(--white);
+            background: var(--main-grad);
+            overflow-x: hidden;
+        }
+        .stars {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0; left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        /* --- ナビゲーションをリッチに --- */
+        .navbar {
+            width: 100%;
+            background: rgba(30, 5, 60, 0.97);
+            position: fixed;
+            top: 0; left: 0;
+            z-index: 20;
+            box-shadow: 0 4px 32px #a259ff55, 0 2px 16px #fff2;
+            -webkit-backdrop-filter: blur(12px); /* Safari対応 */
+            backdrop-filter: blur(12px);
+            border-bottom: 2.5px solid #a259ff55;
+        }
+        .navbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            padding: 0 32px;
+        }
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .navbar-logo img {
+            height: 44px;
+            width: auto;
+            filter: drop-shadow(0 2px 12px #a259ff88);
+        }
+        .navbar-logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.7rem;
+            color: #fff;
+            letter-spacing: 0.13em;
+            font-weight: 700;
+            text-shadow: 0 2px 12px #a259ff77;
+        }
+        .navbar-list {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap; /* 追加：はみ出す場合は折り返す */
+            gap: 16px;       /* gapを少し狭くして詰める */
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+            justify-content: flex-end; /* 右寄せならflex-end、中央ならcenter */
+            max-width: 100vw; /* 横幅制限 */
+            overflow-x: auto; /* 横スクロールも許可 */
+        }
+        .navbar-list li {
+            margin: 0;
+        }
+        .navbar-list a {
+            display: block;
+            padding: 10px 16px; /* パディングを少し小さく */
+            color: var(--white);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;    /* フォントサイズも少し小さく */
+            letter-spacing: 0.09em;
+            border-radius: 22px;
+            transition: 
+                background 0.2s,
+                color 0.2s,
+                box-shadow 0.2s,
+                transform 0.15s;
+            position: relative;
+            min-width: 0;       /* 長い単語の折り返し防止 */
+            white-space: nowrap; /* 折り返し防止 */
+        }
+        .navbar-list a::after {
+            content: "";
+            display: block;
+            margin: 0 auto;
+            width: 0%;
+            height: 2.5px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+        .navbar-list a:hover,
+        .navbar-list a:focus {
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
+            color: #fff;
+            box-shadow: 0 2px 16px #a259ff55;
+            transform: translateY(-2px) scale(1.07);
+            outline: none;
+        }
+        .navbar-list a:hover::after,
+        .navbar-list a:focus::after {
+            width: 80%;
+        }
+        /* --- メインコンテンツ --- */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 140px 24px 80px 24px;
+            text-align: center;
+        }
+        .logo-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+            gap: 10px;
+        }
+        .logo-main {
+            width: 420px;
+            max-width: 98vw;
+            margin-bottom: 14px;
+            display: block;
+            filter: drop-shadow(0 8px 32px #a259ff88);
+            animation: logoFadeIn 1.2s cubic-bezier(.4,2,.6,1) 0.2s both;
+        }
+        .logo-text {
+            width: 540px;
+            max-width: 99vw;
+            display: block;
+            filter: drop-shadow(0 2px 12px #fff8);
+            animation: logoFadeIn 1.4s cubic-bezier(.4,2,.6,1) 0.4s both;
+        }
+        @keyframes logoFadeIn {
+            0% { opacity: 0; transform: translateY(-40px) scale(0.95);}
+            100% { opacity: 1; transform: translateY(0) scale(1);}
+        }
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2.5em;
+            color: #e0b3ff;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-shadow: 0 2px 16px #a259ff44;
+            animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1) 0.7s both;
+        }
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(40px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 36px;
+            margin-bottom: 2.5em;
+        }
+        .feature-card {
+            background: rgba(255,255,255,0.13);
+            border-radius: 28px;
+            box-shadow: 0 8px 32px #a259ff33;
+            padding: 44px 36px 36px 36px;
+            min-width: 240px;
+            max-width: 320px;
+            flex: 1 1 260px;
+            transition: transform 0.22s, box-shadow 0.22s;
+            border: 2px solid #a259ff33;
+            position: relative;
+            overflow: hidden;
+            -webkit-backdrop-filter: blur(8px); /* Safari対応 */
+            backdrop-filter: blur(8px);
+        }
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            left: -40%;
+            top: -40%;
+            width: 180%;
+            height: 180%;
+            background: radial-gradient(circle at 70% 30%, #a259ff33 0%, transparent 70%);
+            z-index: 0;
+        }
+        .feature-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.32rem;
+            color: #a259ff;
+            margin-bottom: 0.7em;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.07em;
+        }
+        .feature-card p {
+            font-size: 1.13rem;
+            color: #e0e0ff;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .feature-card:hover {
+            transform: translateY(-12px) scale(1.08) rotate(-1deg);
+            box-shadow: 0 16px 48px #a259ff77;
+            border-color: #a259ff;
+        }
+        .cta-btn {
+            display: inline-block;
+            margin-top: 38px;
+            padding: 22px 64px;
+            font-size: 1.32rem;
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            background: linear-gradient(90deg, #a259ff 0%, #3a0ca3 100%);
+            border: none;
+            border-radius: 40px;
+            box-shadow: 0 4px 24px #a259ff55;
+            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: 0.09em;
+            font-weight: 700;
+            transition: background 0.22s, transform 0.22s, box-shadow 0.22s;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-btn::before {
+            content: "";
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, #fff8 0%, transparent 70%);
+            opacity: 0.5;
+            border-radius: 50%;
+            transition: transform 0.4s cubic-bezier(.4,2,.6,1);
+            z-index: 0;
+        }
+        .cta-btn:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .cta-btn:hover {
+            background: linear-gradient(90deg, #3a0ca3 0%, #a259ff 100%);
+            transform: scale(1.09);
+            box-shadow: 0 10px 40px #a259ff99;
+        }
+        /* --- 下まで続く奥行き感 --- */
+        .deep-bg {
+            position: fixed;
+            left: 0; right: 0; bottom: 0;
+            height: 600px;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 50% 100%, #a259ff33 0%, #3a0ca3 60%, #1a0536 100%);
+            filter: blur(40px) opacity(0.7);
+        }
+        .site-footer {
+            width: 100%;
+            margin-top: 90px;
+            padding: 60px 0 38px 0;
+            text-align: center;
+            color: #e0b3ff;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.08em;
+            background: rgba(30,5,60,0.85);
+            -webkit-backdrop-filter: blur(10px); /* Safari対応 */
+            backdrop-filter: blur(10px);
+            box-shadow: 0 -2px 32px #a259ff33;
+        }
+        .footer-title {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            letter-spacing: 0.09em;
+        }
+        .footer-status {
+            font-size: 1.13rem;
+        }
+        .footer-discord {
+            margin-top: 28px;
+        }
+        .discord-btn {
+            display: inline-block;
+            padding: 18px 48px;
+            margin-top: 16px;
+            font-size: 1.18rem;
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            background: linear-gradient(90deg,#a259ff 0%,#3a0ca3 100%);
+            border: none;
+            border-radius: 32px;
+            box-shadow: 0 4px 24px #a259ff55;
+            text-decoration: none;
+            letter-spacing: 0.08em;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .discord-btn:hover {
+            background: linear-gradient(90deg, #3a0ca3 0%, #a259ff 100%);
+            transform: scale(1.09);
+            box-shadow: 0 8px 32px #a259ff99;
+        }
+        /* スクロールバーもカスタム */
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: #1a0536;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #a259ff 0%, #3a0ca3 100%);
+            border-radius: 8px;
+        }
+        /* レスポンシブ */
+        @media (max-width: 1200px) {
+            .navbar-inner {
+                padding: 0 8vw;
+            }
+            .container {
+                max-width: 98vw;
+            }
+            .features {
+                gap: 18px;
+            }
+        }
+        @media (max-width: 900px) {
+            .navbar-inner {
+                flex-direction: column;
+                height: auto;
+                gap: 10px;
+                padding: 0 2vw;
+            }
+            .navbar-list {
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .logo-main {
+                width: 70vw;
+            }
+            .logo-text {
+                width: 85vw;
+            }
+            .features {
+                flex-direction: column;
+                gap: 18px;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+        }
+        .page-fade {
+            pointer-events: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(135deg, #a259ff 0%, #3a0ca3 60%, #1a0536 100%);
+            opacity: 0;
+            transition: opacity 0.5s cubic-bezier(.4,2,.6,1);
+        }
+        .page-fade.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-fade" id="pageFade"></div>
+    <!-- 奥行き感のある下部グラデーション -->
+    <div class="deep-bg"></div>
+    <!-- ナビゲーションバー -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-logo">
+                <img src="img/BCO.3f5cdd92-4da9-46cb-a49d-12918a7d0219-removebg-preview.png" alt="IslaCityロゴ">
+                <span class="navbar-logo-text">IslaCity</span>
+            </div>
+            <ul class="navbar-list">
+                <li><a href="#" title="ホーム">ホーム</a></li>
+                <li><a href="#" title="特徴">特徴</a></li>
+                <li><a href="job.html" title="ジョブ">ジョブ</a></li>
+                <li><a href="gang.html" title="ギャング">ギャング</a></li>
+                <li><a href="2.html" title="運営">運営</a></li>
+                <li><a href="lole.html" title="ルール">ルール</a></li>
+                <li><a href="join.html" title="参加方法">参加方法</a></li> <!-- ここをjoin.htmlに -->
+            </ul>
+        </div>
+    </nav>
+    <canvas class="stars"></canvas>
+    <div class="container">
+        <div class="logo-area">
+            <img src="img/BCO.3f5cdd92-4da9-46cb-a49d-12918a7d0219-removebg-preview.png" alt="IslaCityロゴ" class="logo-main" onerror="this.style.display='none'">
+            <img src="img/IslaCityText.png" alt="IslaCity" class="logo-text" onerror="this.style.display='none';">
+        </div>
+        <h2>最高の街</h2>
+        <div class="features">
+            <div class="feature-card">
+                <h3>かっこいい人</h3>
+                <p>ますださまが作成した。</p>
+            </div>
+            <div class="feature-card">
+                <h3>多彩なジョブ</h3>
+                <p>警察・医療・ビジネスなど、様々な職業でロールプレイが可能。</p>
+            </div>
+            <div class="feature-card">
+                <h3>ギャング活動</h3>
+                <p>IslaCityでは、ターフやシティーファイトなどができます！！</p>
+            </div>
+            <div class="feature-card">
+                <h3>運営が神</h3>
+                <p>運営のますだって人がかっこいい</p>
+            </div>
+        </div>
+        <a href="#" class="cta-btn">今すぐ参加する</a>
+    </div>
+    <footer class="site-footer">
+        <div class="footer-title">開発状態</div>
+        <div class="footer-status">
+            IslaCityは現在<strong>開発中</strong>です。<br>
+            新機能やコンテンツは順次追加予定です。<br>
+            ご意見・ご要望は運営まで！
+        </div>
+        <div class="footer-discord">
+            <a href="https://discord.com/invite/islacity" target="_blank" rel="noopener" class="discord-btn">
+                公式Discordサーバーはこちら
+            </a>
+        </div>
+    </footer>
+    <script>
+        // 星を描画する宇宙背景
+        const canvas = document.querySelector('.stars');
+        const ctx = canvas.getContext('2d');
+        let w, h, stars;
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+        function createStars() {
+            stars = [];
+            for (let i = 0; i < 180; i++) {
+                stars.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    r: Math.random() * 1.2 + 0.3,
+                    o: Math.random() * 0.7 + 0.3,
+                    s: Math.random() * 0.5 + 0.2
+                });
+            }
+        }
+        function drawStars() {
+            ctx.clearRect(0, 0, w, h);
+            for (const star of stars) {
+                ctx.globalAlpha = star.o;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+                ctx.fillStyle = "#fff";
+                ctx.shadowColor = "#a259ff";
+                ctx.shadowBlur = 8;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                star.x += star.s * 0.2;
+                if (star.x > w) star.x = 0;
+            }
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(drawStars);
+        }
+        window.addEventListener('resize', () => {
+            resize();
+            createStars();
+        });
+        resize();
+        createStars();
+        drawStars();
+
+        // ページ遷移アニメーション
+        document.querySelectorAll('.navbar-list a, .cta-btn, .discord-btn, .back-link, .join-link').forEach(link => {
+            // 外部リンクや#は除外
+            link.addEventListener('click', function(e) {
+                const href = link.getAttribute('href');
+                if (
+                    !href || href.startsWith('#') ||
+                    link.target === '_blank' ||
+                    href.startsWith('http')
+                ) return;
+                e.preventDefault();
+                const fade = document.getElementById('pageFade');
+                fade.classList.add('active');
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 420);
+            });
+        });
+
+        // ページ表示時のフェードイン
+        window.addEventListener('DOMContentLoaded', () => {
+            const fade = document.getElementById('pageFade');
+            fade.style.transition = 'none';
+            fade.style.opacity = 1;
+            setTimeout(() => {
+                fade.style.transition = 'opacity 0.7s cubic-bezier(.4,2,.6,1)';
+                fade.style.opacity = 0;
+            }, 60);
+        });
+    </script>
+</body>
+</html>
